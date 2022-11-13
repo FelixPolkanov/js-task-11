@@ -4,6 +4,8 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import NewsApiService from './news-service';
 const axios = require('axios');
 
+
+
 const refs = {
     searchForm: document.querySelector('#search-form'),
     loadMoreBTN: document.querySelector('.load-more'),
@@ -22,7 +24,7 @@ function onSearch(evt) {
   evt.preventDefault();
   clearGalleryContainer();
   if (evt.currentTarget.elements.searchQuery.value === '') {
-    console.log(Notify.failure('Sorry, there are no images matching your search query. Please try again.')) 
+    (Notify.failure('Sorry, there are no images matching your search query. Please try again.')) 
 
     return;
   }
@@ -33,18 +35,18 @@ function onSearch(evt) {
 refs.loadMoreBTN.classList.remove("is-hidden");
 }
 
-function onloadMore() {
-newsApiService.fetchArticles().then(appendPictureMarkup);
+async function onloadMore() {
+const q = newsApiService.fetchArticles().then(appendPictureMarkup);
 }
 
 function appendPictureMarkup(hits) {
   if (hits.length === 0) {
     refs.loadMoreBTN.classList.add("is-hidden");
-    console.log(Notify.failure('Sorry, there are no images matching your search query. Please try again.'))
-    }
+    (Notify.failure('Sorry, there are no images matching your search query. Please try again.'))
+  }
   
-const markup = hits.map(({ webformatURL, tags, likes, views, comments, downloads}) => {
-      return `<div class="photo-card">
+  const markup = hits.map(({ webformatURL, tags, likes, views, comments, downloads }) => {
+    return `<div class="photo-card">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
@@ -68,11 +70,16 @@ const markup = hits.map(({ webformatURL, tags, likes, views, comments, downloads
   }).join('');
 
   refs.galleryContainer.insertAdjacentHTML('beforeend', markup)
+     
+
 }
+
 
 function clearGalleryContainer() {
   refs.galleryContainer.innerHTML = '';
   refs.loadMoreBTN.classList.add("is-hidden");
 }
+
+ 
 
 
