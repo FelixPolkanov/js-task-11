@@ -1,6 +1,6 @@
 
 import './common.css';
-import { Notify } from 'notiflix/build/notiflix-notify-aio'
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import NewsApiService from './news-service';
 const axios = require('axios');
 
@@ -10,6 +10,7 @@ const refs = {
     galleryContainer: document.querySelector('.gallery')
 }
 
+refs.loadMoreBTN.classList.add("is-hidden");
 refs.searchForm.addEventListener('submit', onSearch)
 refs.loadMoreBTN.addEventListener('click', onloadMore)
 
@@ -17,15 +18,19 @@ refs.loadMoreBTN.addEventListener('click', onloadMore)
 const newsApiService = new NewsApiService();
 
 
-
 function onSearch(evt) {
-    evt.preventDefault(); 
+  evt.preventDefault();
+  clearGalleryContainer();
+  if (evt.currentTarget.elements.searchQuery.value === '') {
+    console.log(Notify.failure('Sorry, there are no images matching your search query. Please try again.')) 
 
-    newsApiService.query = evt.currentTarget.elements.searchQuery.value;
-    newsApiService.resetPage();
-    newsApiService.fetchArticles().then(appendPictureMarkup);
-
-
+    return;
+  }
+  newsApiService.query = evt.currentTarget.elements.searchQuery.value;
+  newsApiService.resetPage();
+  newsApiService.fetchArticles().then(appendPictureMarkup)
+  
+refs.loadMoreBTN.classList.remove("is-hidden");
 }
 
 function onloadMore() {
@@ -33,6 +38,11 @@ newsApiService.fetchArticles().then(appendPictureMarkup);
 }
 
 function appendPictureMarkup(hits) {
+  if (hits.length === 0) {
+    refs.loadMoreBTN.classList.add("is-hidden");
+    console.log(Notify.failure('Sorry, there are no images matching your search query. Please try again.'))
+    }
+  
 const markup = hits.map(({ webformatURL, tags, likes, views, comments, downloads}) => {
       return `<div class="photo-card">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
@@ -57,8 +67,12 @@ const markup = hits.map(({ webformatURL, tags, likes, views, comments, downloads
 </div>`;
   }).join('');
 
-
   refs.galleryContainer.insertAdjacentHTML('beforeend', markup)
+}
+
+function clearGalleryContainer() {
+  refs.galleryContainer.innerHTML = '';
+  refs.loadMoreBTN.classList.add("is-hidden");
 }
 
 

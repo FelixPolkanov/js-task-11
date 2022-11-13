@@ -16,12 +16,12 @@ img {
 
 button {
     cursor: pointer;
-    border: transparent;
-    width: 100px;
-    height: 20px;
-    background-color: #8484ff;
+    border: 1px, #212121;
+    width: 110px;
+    height: 30px;
+    background-color: #4f9ffb;
     color: #212121;
-    font-size: 14px;
+    font-size: 18px;
     border-radius: 5px;
 }
 .search-form {
@@ -30,6 +30,10 @@ button {
     padding: 20px;
     margin-bottom: 24px;
 }
+input{
+    margin-right: 10px;
+}
+
 
 .load-more {
     display: block;
