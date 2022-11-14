@@ -4,7 +4,7 @@ export default class newsApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;
-       
+        this.calcPage = dataResponse.data.totalHits;
     };
 
     async fetchArticles() {
@@ -20,12 +20,12 @@ export default class newsApiService {
    
       } 
      
-        // calcEndOfPages() {
-    //     if (this.dataResponse.data.totalHits < 40) {
-    //        (Notify.failure("We're sorry, but you've reached the end of search results."))
-    //     }
+        calcEndOfPages() {
+        if (this.calcPage < 40) {
+           (Notify.failure("We're sorry, but you've reached the end of search results."))
+        }
 
-    // }
+    }
     
     
     resetPage() {

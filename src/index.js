@@ -25,12 +25,13 @@ function onSearch(evt) {
   newsApiService.query = evt.currentTarget.elements.searchQuery.value;
   newsApiService.resetPage();
   newsApiService.fetchArticles().then(appendPictureMarkup)
-  // newsApiService.calcEndOfPages();
+  newsApiService.calcEndOfPages().then (hideBtnLoadMore);
 refs.loadMoreBTN.classList.remove("is-hidden");
 }
 
 async function onloadMore() {
-newsApiService.fetchArticles().then(appendPictureMarkup);
+   newsApiService.fetchArticles().then(appendPictureMarkup)
+  
 }
 
 function appendPictureMarkup(hits) {
@@ -69,5 +70,10 @@ function appendPictureMarkup(hits) {
 
 function clearGalleryContainer() {
   refs.galleryContainer.innerHTML = '';
+  refs.loadMoreBTN.classList.add("is-hidden");
+}
+
+
+function hideBtnLoadMore() {
   refs.loadMoreBTN.classList.add("is-hidden");
 }
