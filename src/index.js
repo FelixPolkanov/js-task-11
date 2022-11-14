@@ -2,9 +2,6 @@
 import './common.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import NewsApiService from './news-service';
-const axios = require('axios');
-
-
 
 const refs = {
     searchForm: document.querySelector('#search-form'),
@@ -16,27 +13,24 @@ refs.loadMoreBTN.classList.add("is-hidden");
 refs.searchForm.addEventListener('submit', onSearch)
 refs.loadMoreBTN.addEventListener('click', onloadMore)
 
-
 const newsApiService = new NewsApiService();
-
 
 function onSearch(evt) {
   evt.preventDefault();
   clearGalleryContainer();
   if (evt.currentTarget.elements.searchQuery.value === '') {
     (Notify.failure('Sorry, there are no images matching your search query. Please try again.')) 
-
     return;
   }
   newsApiService.query = evt.currentTarget.elements.searchQuery.value;
   newsApiService.resetPage();
   newsApiService.fetchArticles().then(appendPictureMarkup)
-  
+  // newsApiService.calcEndOfPages();
 refs.loadMoreBTN.classList.remove("is-hidden");
 }
 
 async function onloadMore() {
-const q = newsApiService.fetchArticles().then(appendPictureMarkup);
+newsApiService.fetchArticles().then(appendPictureMarkup);
 }
 
 function appendPictureMarkup(hits) {
@@ -68,10 +62,8 @@ function appendPictureMarkup(hits) {
   </div>
 </div>`;
   }).join('');
-
-  refs.galleryContainer.insertAdjacentHTML('beforeend', markup)
-     
-
+ refs.galleryContainer.insertAdjacentHTML('beforeend', markup)
+  
 }
 
 
@@ -79,7 +71,3 @@ function clearGalleryContainer() {
   refs.galleryContainer.innerHTML = '';
   refs.loadMoreBTN.classList.add("is-hidden");
 }
-
- 
-
-

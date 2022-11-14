@@ -8,26 +8,26 @@ export default class newsApiService {
     };
 
     async fetchArticles() {
-        console.log(this.searchQuery);
-    try {
-        const fetchData = await fetch(`https://pixabay.com/api/?key=31251439-64cf22bfdeb9633faeca9a5f6&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`)
-        const data = await fetchData.json()
-        
-        if (!fetchData.ok) {
-            throw new Error('Error')
-        }
-       
-            console.log('data', data)
-            console.log('data.hits', data.hits)
-                
-            this.page += 1;
-            return data.hits;
-     }catch(error) {
-         console.log("Что-то пошло не так при парсе.😡😡😡");  
-    }
-    } 
+    
+            const dataResponse = await axios.get(`https://pixabay.com/api/?key=31251439-64cf22bfdeb9633faeca9a5f6&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`)
+            console.log('dataResponse-', dataResponse)
+            console.log('dataResponse.data-', dataResponse.data)
+            console.log('dataResponse.data.hits-', dataResponse.data.hits)
+            console.log('dataResponsedata.TotalHits', dataResponse.data.totalHits)
            
+         this.page += 1;
+        return dataResponse.data.hits;
+   
+      } 
+     
+        // calcEndOfPages() {
+    //     if (this.dataResponse.data.totalHits < 40) {
+    //        (Notify.failure("We're sorry, but you've reached the end of search results."))
+    //     }
 
+    // }
+    
+    
     resetPage() {
         this.page = 1;
 }
