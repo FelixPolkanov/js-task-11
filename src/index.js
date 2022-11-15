@@ -25,7 +25,7 @@ function onSearch(evt) {
   newsApiService.query = evt.currentTarget.elements.searchQuery.value;
   newsApiService.resetPage();
   newsApiService.fetchArticles().then(appendPictureMarkup)
-  newsApiService.calcEndOfPages().then (hideBtnLoadMore);
+  // newsApiService.calcEndOfPages().then (hideBtnLoadMore);
 refs.loadMoreBTN.classList.remove("is-hidden");
 }
 

@@ -4,7 +4,7 @@ export default class newsApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;
-        this.calcPage = dataResponse.data.totalHits;
+        // this.calcPage = dataResponse.data.totalHits;
     };
 
     async fetchArticles() {
